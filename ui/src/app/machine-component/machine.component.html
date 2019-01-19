@@ -1,0 +1,35 @@
+<div class="machine-container text-center">
+  <img [src]="'../../assets/'+(machine.printing?'printer':'printer_frozen')+'.gif'"/>
+  <h3>{{machine.name}}</h3>
+  <div class="progress">
+    <div *ngIf="dangerWidth > 0"
+         class="progress-bar progress-bar-danger"
+         [class.active]="machine.printing"
+         [class.progress-bar-striped]="machine.printing"
+         [style.width.%]="dangerWidth"><b>Danger</b></div>
+    <div *ngIf="warningWidth > 0"
+         class="progress-bar progress-bar-warning"
+         [class.active]="machine.printing"
+         [class.progress-bar-striped]="machine.printing"
+         [style.width.%]="warningWidth"><b>Warning</b></div>
+    <div *ngIf="successWidth > 0"
+         class="progress-bar progress-bar-success"
+         [class.active]="machine.printing"
+         [class.progress-bar-striped]="machine.printing"
+         [style.width.%]="successWidth"><b>Safe</b></div>
+  </div>
+  <div class="button-container">
+    <button class="btn btn-link"
+            (click)="onPrint()"
+            [disabled]="machine.printing || machine.quantity === 0">PRINT
+    </button>
+    <button class="btn btn-link"
+            (click)="onPause()"
+            [disabled]="!machine.printing">PAUSE
+    </button>
+    <button class="btn btn-link"
+            (click)="onRefill()"
+            [disabled]="percent===100">REFILL
+    </button>
+  </div>
+</div>
