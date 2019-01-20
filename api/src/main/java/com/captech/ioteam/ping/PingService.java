@@ -10,14 +10,11 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.MessagingException;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -46,31 +43,31 @@ public class PingService {
             PrintOSMachine currentMachineInfo = new ObjectMapper().convertValue(singleMachineData, PrintOSMachine.class);
 
             // TODO: for testing only - to only work with Armani machine
-            if (currentMachineInfo.getPressName().equals("Armani")) {
+//            if (currentMachineInfo.getPressName().equals("Armani")) {
 
-                // get previous level
-                List<String> previousLevelsForMachineId = pingRepository
-                        .findFirstByMachineIdPreviousLevelOrderByCreatedDesc(currentMachineInfo.getId()); // TODO: why is this not returning only the 1?
-                String mostRecentPreviousLevelStr = previousLevelsForMachineId.isEmpty() ? null : previousLevelsForMachineId.get(0);
-                ResourceLevel mostRecentPreviousLevel = null;
-                if (mostRecentPreviousLevelStr != null) {
-                    mostRecentPreviousLevel = ResourceLevel.valueOf(mostRecentPreviousLevelStr);
-                }
-
-                // if change in level, refer to decision table to take action
-                if (!currentMachineInfo.getResourceLevel().equals(mostRecentPreviousLevel)) {
-                    decisionService.execute(currentMachineInfo.getPressName(), mostRecentPreviousLevel, currentMachineInfo.getResourceLevel());
-                }
-
-                //save new machine audit record
-                MachineAudit machineAudit = new MachineAudit();
-                machineAudit.setLastReadLevel(currentMachineInfo.getResourceLevel());
-                Machine machine = new Machine();
-                machine.setId(currentMachineInfo.getId());
-                machineAudit.setMachine(machine);
-                pingRepository.save(machineAudit);
-
+            // get previous level
+            List<String> previousLevelsForMachineId = pingRepository
+                    .findFirstByMachineIdPreviousLevelOrderByCreatedDesc(currentMachineInfo.getId()); // TODO: why is this not returning only the 1?
+            String mostRecentPreviousLevelStr = previousLevelsForMachineId.isEmpty() ? null : previousLevelsForMachineId.get(0);
+            ResourceLevel mostRecentPreviousLevel = ResourceLevel.DEFAULT;
+            if (mostRecentPreviousLevelStr != null) {
+                mostRecentPreviousLevel = ResourceLevel.valueOf(mostRecentPreviousLevelStr);
             }
+
+            // if change in level, refer to decision table to take action
+            if (!currentMachineInfo.getResourceLevel().equals(mostRecentPreviousLevel)) {
+                decisionService.execute(currentMachineInfo, mostRecentPreviousLevel, currentMachineInfo.getResourceLevel());
+            }
+
+            //save new machine audit record
+            MachineAudit machineAudit = new MachineAudit();
+            machineAudit.setLastReadLevel(currentMachineInfo.getResourceLevel());
+            Machine machine = new Machine();
+            machine.setId(currentMachineInfo.getId());
+            machineAudit.setMachine(machine);
+            pingRepository.save(machineAudit);
+
+//            }
         }
 
     }

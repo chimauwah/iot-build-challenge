@@ -1,5 +1,6 @@
 package com.captech.ioteam.ping;
 
+import com.captech.ioteam.machine.PrintOSMachine;
 import com.captech.ioteam.machine.ResourceLevel;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,11 @@ public class DecisionService {
     private EmailService emailService;
 
 
-    void execute(String machineName, ResourceLevel fromLevel, ResourceLevel toLevel) throws MessagingException {
-        List<DecisionTable> decisions = decisionRepository.findAlertActionAndRecipientsByFromLevelAndToLevel(fromLevel, toLevel);
+    void execute(PrintOSMachine machine, ResourceLevel fromLevel, ResourceLevel toLevel) throws MessagingException {
+        List<DecisionTable> decisions = decisionRepository.findByMachineIdAndFromLevelAndToLevel(machine.getId(), fromLevel, toLevel);
 
         for (DecisionTable decision : decisions) {
-            takeAction(machineName, fromLevel, toLevel, decision.getAlertAction(), decision.getRecipients());
+            takeAction(machine.getPressName(), fromLevel, toLevel, decision.getAlertAction(), decision.getRecipients());
         }
 
     }

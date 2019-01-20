@@ -12,5 +12,5 @@ import java.util.List;
 @RepositoryRestResource
 public interface DecisionRepository extends JpaRepository<DecisionTable, Long> {
 
-    List<DecisionTable> findAlertActionAndRecipientsByFromLevelAndToLevel(ResourceLevel fromLevel, ResourceLevel toLevel);
+    List<DecisionTable> findByMachineIdAndFromLevelAndToLevel(Long machineId, ResourceLevel fromLevel, ResourceLevel toLevel);
 }
