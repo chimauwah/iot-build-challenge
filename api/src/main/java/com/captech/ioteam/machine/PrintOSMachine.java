@@ -28,7 +28,7 @@ public class PrintOSMachine {
     private int totalPrintedImpsSinceInstallation;
     private int meters;
     private List<Substrate> substrates;
-    private String resourceLevel;
+    private ResourceLevel resourceLevel;
 
     public PrintOSMachine(Machine machine) {
         this.id = machine.getId();
@@ -36,15 +36,15 @@ public class PrintOSMachine {
         this.substrates = Arrays.asList(new Substrate(), new Substrate());
         double percent = ((double) machine.getQuantity() / (double) machine.getCapacity()) * 100.0;
         if (percent == 100.0) {
-            this.resourceLevel = "FULL";
+            this.resourceLevel = ResourceLevel.FULL;
         } else if (percent >= 80.0) {
-            this.resourceLevel = "NORMAL";
+            this.resourceLevel = ResourceLevel.NORMAL;
         } else if (percent >= 40.0) {
-            this.resourceLevel = "LOW_WARNING";
+            this.resourceLevel = ResourceLevel.LOW_WARNING;
         } else if (percent >= 15) {
-            this.resourceLevel = "LOW_DANGER";
+            this.resourceLevel = ResourceLevel.LOW_DANGER;
         } else {
-            this.resourceLevel = "EMPTY";
+            this.resourceLevel = ResourceLevel.EMPTY;
         }
     }
 

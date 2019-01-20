@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.Map;
+import javax.mail.MessagingException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,9 +15,14 @@ public class PingController {
 
     private final PingService pingService;
 
+    @RequestMapping(method = RequestMethod.POST)
+    public void ping() throws MessagingException {
+        pingService.execute(8080);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public Map ping() throws IOException {
-        return pingService.execute(8080);
+    public List getCurrentPrinterData() {
+        return pingService.getAllPrinterData(8080);
     }
 
 }

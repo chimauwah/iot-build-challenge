@@ -1,6 +1,7 @@
 package com.captech.ioteam.ping;
 
 import com.captech.ioteam.machine.Machine;
+import com.captech.ioteam.machine.ResourceLevel;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -23,11 +24,11 @@ public class DecisionTable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Machine machine;
 
-    @Column
-    private String fromLevel;
+    @Enumerated(EnumType.STRING)
+    private ResourceLevel fromLevel;
 
-    @Column
-    private String toLevel;
+    @Enumerated(EnumType.STRING)
+    private ResourceLevel toLevel;
 
     @Enumerated(EnumType.STRING)
     private AlertAction alertAction;

@@ -5,10 +5,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -29,11 +27,8 @@ public class MachineAudit {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Machine machine;
 
-    @Column
-    private String previousLevel;
-
-    @Column
-    private String currentLevel;
+    @Enumerated(EnumType.STRING)
+    private ResourceLevel lastReadLevel;
 
     @Column(name = "created", nullable = false, updatable = false)
     @CreatedDate

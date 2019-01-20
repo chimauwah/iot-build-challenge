@@ -6,6 +6,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: cltjug@gmail.com
+    password: captech1450
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+
+
 #spring:
 #  datasource:
 #    url: jdbc:postgresql://localhost:5432/postgres
@@ -16,6 +29,8 @@ spring:
 #      ddl-auto: update
 server:
   context-path: /api
+
+
 
 ---
 
