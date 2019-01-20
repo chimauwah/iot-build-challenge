@@ -1,11 +1,19 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: admin
-    password: admin
+    url: jdbc:postgresql://35.185.124.25:5432/postgres
+    username: postgres
+    password: HQQRdMCj4nPr
   jpa:
     hibernate:
       ddl-auto: update
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: admin
+#    password: admin
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
 server:
   context-path: /api
 

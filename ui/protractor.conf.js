@@ -21,7 +21,7 @@ exports.config = {
     print: function() {}
   },
   onPrepare() {
-    // Delay each action by 100ms so it can be seen
+    // Delay each alertAction by 100ms so it can be seen
     const origFn = browser.driver.controlFlow().execute;
     browser.driver.controlFlow().execute = function () {
       const args = arguments;

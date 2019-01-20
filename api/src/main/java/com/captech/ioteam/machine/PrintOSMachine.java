@@ -1,12 +1,14 @@
 package com.captech.ioteam.machine;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused"})
 @Data
+@NoArgsConstructor
 public class PrintOSMachine {
     private Long id;
     private String pressName;
@@ -35,9 +37,11 @@ public class PrintOSMachine {
         double percent = ((double) machine.getQuantity() / (double) machine.getCapacity()) * 100.0;
         if (percent == 100.0) {
             this.resourceLevel = "FULL";
-        } else if (percent > 40.0) {
+        } else if (percent >= 80.0) {
+            this.resourceLevel = "NORMAL";
+        } else if (percent >= 40.0) {
             this.resourceLevel = "LOW_WARNING";
-        } else if (percent > 15) {
+        } else if (percent >= 15) {
             this.resourceLevel = "LOW_DANGER";
         } else {
             this.resourceLevel = "EMPTY";
@@ -45,7 +49,8 @@ public class PrintOSMachine {
     }
 
     @Data
-    private class Substrate {
+    @NoArgsConstructor
+    private static class Substrate {
         private String name = "Sappi Flo 100# Gloss Cover 20.75x29.5";
         private int Thickness = 236;
         private int Weight = 270;
