@@ -17,12 +17,12 @@ public class PingController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void ping() throws MessagingException {
-        pingService.execute(8080);
+        pingService.execute();
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public List getCurrentPrinterData() {
-        return pingService.getAllPrinterData(8080);
+        return pingService.getAllPrinterData();
     }
 
 }

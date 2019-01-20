@@ -18,9 +18,6 @@ public class PingServiceTest {
     @LocalServerPort
     private int port;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
-
     @Spy
     private PingService pingService;
 
@@ -50,10 +47,11 @@ public class PingServiceTest {
         decisionService.setTwilioService(twilioService);
         decisionService.setEmailService(emailService);
         emailService.setEmailSender(emailSender);
+        System.setProperty("server.port", String.valueOf(port));
     }
 
     @Test
     public void test() throws Exception {
-        pingService.execute(port);
+        pingService.execute();
     }
 }

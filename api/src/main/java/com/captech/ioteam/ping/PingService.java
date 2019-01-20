@@ -6,15 +6,24 @@ import com.captech.ioteam.machine.PrintOSMachine;
 import com.captech.ioteam.machine.ResourceLevel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.MessagingException;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class PingService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PingService.class);
 
     @Autowired
     @Setter
@@ -24,11 +33,16 @@ public class PingService {
     @Setter
     private DecisionService decisionService;
 
+    //    @Value("${server.port}:8080")
+    private int port = 8080;
+
     private String uri = "http://localhost:%s/api/machines/printos";
 
-    void execute(int port) throws MessagingException {
+    @Scheduled(fixedDelay = 5000, initialDelay = 20000)
+    void execute() throws MessagingException {
+        LOG.info("Checking for level change : " + new DateTime());
 
-        for (Object singleMachineData : getAllPrinterData(port)) {
+        for (Object singleMachineData : getAllPrinterData()) {
             PrintOSMachine currentMachineInfo = new ObjectMapper().convertValue(singleMachineData, PrintOSMachine.class);
 
             // TODO: for testing only - to only work with Armani machine
@@ -64,10 +78,9 @@ public class PingService {
     /**
      * Call API to retrieve all printer info
      *
-     * @param port
      * @return
      */
-    List getAllPrinterData(int port) {
+    List getAllPrinterData() {
         // get printer data
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(String.format(uri, port), List.class);
