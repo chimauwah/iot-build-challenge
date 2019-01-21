@@ -1,5 +1,6 @@
 package com.captech.ioteam.ping;
 
+import com.captech.ioteam.machine.MachineController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +39,9 @@ public class PingServiceTest {
     @Autowired
     private JavaMailSender emailSender;
 
+    @Autowired
+    private MachineController machineController;
+
     @Before
     public void setUp() {
         pingService.setPingRepository(pingRepository);
@@ -46,6 +50,7 @@ public class PingServiceTest {
         decisionService.setTwilioService(twilioService);
         decisionService.setEmailService(emailService);
         emailService.setEmailSender(emailSender);
+        pingService.setMachineController(machineController);
         System.setProperty("server.port", String.valueOf(port));
     }
 

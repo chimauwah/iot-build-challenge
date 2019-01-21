@@ -1,9 +1,6 @@
 package com.captech.ioteam.ping;
 
-import com.captech.ioteam.machine.Machine;
-import com.captech.ioteam.machine.MachineAudit;
-import com.captech.ioteam.machine.PrintOSMachine;
-import com.captech.ioteam.machine.ResourceLevel;
+import com.captech.ioteam.machine.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
 import org.joda.time.DateTime;
@@ -29,6 +26,10 @@ public class PingService {
     @Autowired
     @Setter
     private DecisionService decisionService;
+
+    @Autowired
+    @Setter
+    private MachineController machineController;
 
     //    @Value("${server.port}:8080")
     private int port = 8080;
@@ -57,15 +58,15 @@ public class PingService {
             // if change in level, refer to decision table to take action
             if (!currentMachineInfo.getResourceLevel().equals(mostRecentPreviousLevel)) {
                 decisionService.execute(currentMachineInfo, mostRecentPreviousLevel, currentMachineInfo.getResourceLevel());
+                //save new machine audit record
+                MachineAudit machineAudit = new MachineAudit();
+                machineAudit.setLastReadLevel(currentMachineInfo.getResourceLevel());
+                Machine machine = new Machine();
+                machine.setId(currentMachineInfo.getId());
+                machineAudit.setMachine(machine);
+                pingRepository.save(machineAudit);
             }
 
-            //save new machine audit record
-            MachineAudit machineAudit = new MachineAudit();
-            machineAudit.setLastReadLevel(currentMachineInfo.getResourceLevel());
-            Machine machine = new Machine();
-            machine.setId(currentMachineInfo.getId());
-            machineAudit.setMachine(machine);
-            pingRepository.save(machineAudit);
 
 //            }
         }
@@ -78,9 +79,14 @@ public class PingService {
      * @return
      */
     List getAllPrinterData() {
-        // get printer data
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(String.format(uri, port), List.class);
+        // get printer data via REST
+//        RestTemplate restTemplate = new RestTemplate();
+//        return restTemplate.getForObject(String.format(uri, port), List.class);
+
+        // get via Java API
+        return machineController.getAllPrintOSMachines();
+
+
     }
 
 }
