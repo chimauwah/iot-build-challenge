@@ -2,6 +2,7 @@ package com.captech.ioteam.ping;
 
 import com.captech.ioteam.machine.MachineController;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
@@ -55,6 +56,7 @@ public class PingServiceTest {
     }
 
     @Test
+    @Ignore
     public void test() throws Exception {
         pingService.execute();
     }

@@ -43,9 +43,6 @@ public class PingService {
         for (Object singleMachineData : getAllPrinterData()) {
             PrintOSMachine currentMachineInfo = new ObjectMapper().convertValue(singleMachineData, PrintOSMachine.class);
 
-            // TODO: for testing only - to only work with Armani machine
-//            if (currentMachineInfo.getPressName().equals("Armani")) {
-
             // get previous level
             List<String> previousLevelsForMachineId = pingRepository
                     .findFirstByMachineIdPreviousLevelOrderByCreatedDesc(currentMachineInfo.getId()); // TODO: why is this not returning only the 1?
@@ -67,8 +64,6 @@ public class PingService {
                 pingRepository.save(machineAudit);
             }
 
-
-//            }
         }
 
     }

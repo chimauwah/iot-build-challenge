@@ -87,6 +87,9 @@ VALUES (1, 'FULL', 'NORMAL', 'DO_NOTHING', ''),
        (4, 'DEFAULT', 'LOW_DANGER', 'SMS', '+18434259774,+17168662199'),
        (4, 'DEFAULT', 'EMPTY', 'SMS', '+18434259774,+17168662199');
 
+-- TODO: uncomment FOR DEMO ONLY to add mobile numbers of judges
+--update public.decision_table set recipients = '+18434259774,+17168662199,+18043064710,+18046473143,+18043010397' where to_level in ('LOW_WARNING','LOW_DANGER','EMPTY')
+
 -- add machine data
 -- INSERT INTO public.machines (id, name, quantity, capacity, rate) VALUES (1, 'Armani', 5005, 10000, 135);
 -- INSERT INTO public.machines (id, name, quantity, capacity, rate) VALUES (2, 'Polo', 0, 10000, 240);

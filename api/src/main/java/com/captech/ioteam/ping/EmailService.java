@@ -20,17 +20,20 @@ public class EmailService {
     @Setter
     private JavaMailSender emailSender;
 
-    private static final String FROM_EMAIL = "cltjug@gmail.com";
-    private static final String USERNAME = "cltjug@gmail.com";
-    private static final String PASSWORD = "captech1450";
+    private static final String FROM_EMAIL = "ioteam.captech.clt@gmail.com";
+    private static final String USERNAME = "ioteam.captech.clt@gmail.com";
+    private static final String PASSWORD = "iotbuildchallenge";
 
     private Map<String, String> numberCarrierMap = new HashMap<>();
     private Properties mailServerProps = new Properties();
 
     public EmailService() {
         // hardcoded phone number->carrier gateway address map
-        numberCarrierMap.put("+18434259774", "8434259774@messaging.sprintpcs.com");
-        numberCarrierMap.put("+17168662199", "7168662199@txt.att.net");
+        numberCarrierMap.put("+18434259774", "8434259774@messaging.sprintpcs.com"); // chima
+        numberCarrierMap.put("+17168662199", "7168662199@txt.att.net"); // Jay f
+        numberCarrierMap.put("+18043064710", "8043064710@txt.att.net"); // Jack Cox
+        numberCarrierMap.put("+18046473143", "8046473143@txt.att.net"); // Vinnie
+        numberCarrierMap.put("+18043010397", "8043010397@txt.att.net"); // Brian
 
         //set mail Server Properties
         mailServerProps.put("mail.smtp.host", "smtp.gmail.com");
