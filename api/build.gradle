@@ -1,0 +1,77 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.9.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.captech.ioteam'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junit5Version = '5.1.0'
+    jacksonVersion = '2.8.5'
+    postgresDriverVersion = '42.2.5'
+    lombokVersion = '1.18.2'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    runtime('com.h2database:h2')
+    runtime('org.postgresql:postgresql')
+    compileOnly("org.projectlombok:lombok:$lombokVersion")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    // Testing
+    testCompile("org.assertj:assertj-core:3.11.1")
+    testCompile("org.hamcrest:hamcrest-core:1.3")
+    testCompile("org.mockito:mockito-core:2.23.4")
+    // Testcontainers
+    testCompile("org.testcontainers:postgresql:1.10.2")
+
+    // JUnit 5
+    testCompile("org.junit.jupiter:junit-jupiter-api:$junit5Version")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit5Version")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junit5Version")
+    
+    // twilio
+    compile group: "com.twilio.sdk", name: "twilio", version: "7.34.1"
+
+    // for email
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.1.1.RELEASE'
+
+
+}
+
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/reports/coverage")
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.0'
+}

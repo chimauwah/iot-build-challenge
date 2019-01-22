@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://35.185.124.25:5432/postgres
+    username: postgres
+    password: HQQRdMCj4nPr
+  jpa:
+    hibernate:
+      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ioteam.captech.clt@gmail.com
+    password: iotbuildchallenge
+
+server:
+  context-path: /api
